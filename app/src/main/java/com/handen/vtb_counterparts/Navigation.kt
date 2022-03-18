@@ -9,6 +9,7 @@ import com.handen.vtb_counterparts.screens.MainScreen
 import com.handen.vtb_counterparts.screens.counterpart.CounterpartScreen
 import com.handen.vtb_counterparts.screens.counterpart.counterPartViewModel
 import com.handen.vtb_counterparts.screens.counterparts.CounterpartsScreen
+import com.handen.vtb_counterparts.screens.financial_data.FinancialDataScreen
 
 const val START_DESTINATION = "main"
 
@@ -31,5 +32,8 @@ fun NavGraphBuilder.appGraph(navController: NavHostController) {
     }
     composable("counterparts") {
         CounterpartsScreen(navController)
+    }
+    composable("financial_data") {
+        FinancialDataScreen(navController)
     }
 }

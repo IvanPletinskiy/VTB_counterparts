@@ -27,7 +27,7 @@ fun MainScreen(navController: NavHostController? = null) {
         VSpacer(height = 8)
         UiButton(
             text = "Фин. Аналитика",
-            onClick = { /*TODO*/ },
+            onClick = { navController?.navigate("financial_data") },
             modifier = Modifier.fillMaxWidth()
         )
     }
