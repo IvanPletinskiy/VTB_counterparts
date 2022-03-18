@@ -1,11 +1,13 @@
 package com.handen.vtb_counterparts.screens.counterparts
 
 import com.betterlifeapps.std.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 
-
-class CounterpartViewModel : BaseViewModel() {
+@HiltViewModel
+class CounterpartsViewModel @Inject constructor(): BaseViewModel() {
     val state = MutableStateFlow<UiState>(
         UiState.Loaded(
             listOf(
