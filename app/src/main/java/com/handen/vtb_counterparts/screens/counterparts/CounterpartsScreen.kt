@@ -14,12 +14,9 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,19 +25,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.betterlifeapps.std.ui.composables.CheckConnectionView
+import com.betterlifeapps.std.ui.composables.LoadingView
 import com.betterlifeapps.std.ui.composables.UiToolbar
 import com.betterlifeapps.std.ui.composables.VSpacer
-import com.handen.vtb_counterparts.screens.counterpart.CounterpartViewModel
 
 @Composable
 fun CounterpartsScreen(
     navController: NavController? = null,
     viewModel: CounterpartsViewModel = hiltViewModel()
 ) {
-    val counterpartClickListener = { counterpart: Counterpart ->
+    val counterpartClickListener = { counterpart: ItemCounterpart ->
         navController?.navigate("counterparts/id=${counterpart.unp}&name=${counterpart.name}")
     }
 
@@ -54,12 +51,7 @@ fun CounterpartsScreen(
         val state by viewModel.state.collectAsState()
         when (state) {
             is CounterpartsViewModel.UiState.Loading -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        CircularProgressIndicator()
-                        Text(text = "Loading...")
-                    }
-                }
+                LoadingView()
             }
             is CounterpartsViewModel.UiState.Loaded -> {
                 LazyColumn(
@@ -75,23 +67,14 @@ fun CounterpartsScreen(
                 }
             }
             is CounterpartsViewModel.UiState.Error -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            modifier = Modifier.size(32.dp),
-                            imageVector = Icons.Outlined.Warning,
-                            contentDescription = null
-                        )
-                        Text(text = "Check your internet connection")
-                    }
-                }
+                CheckConnectionView()
             }
         }
     }
 }
 
 @Composable
-fun CounterpartCard(counterpart: Counterpart, onClick: () -> Unit) {
+fun CounterpartCard(counterpart: ItemCounterpart, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -113,5 +96,5 @@ fun CounterpartCard(counterpart: Counterpart, onClick: () -> Unit) {
 @Composable
 @Preview
 fun CounterpartCardPreview() {
-    CounterpartCard(counterpart = Counterpart(11111116, "ОАО Рога и Копыта"), {})
+    CounterpartCard(counterpart = ItemCounterpart(11111116, "ОАО Рога и Копыта"), {})
 }

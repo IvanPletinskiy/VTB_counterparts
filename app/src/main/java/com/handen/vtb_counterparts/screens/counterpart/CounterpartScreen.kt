@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.betterlifeapps.std.ui.composables.CheckConnectionView
+import com.betterlifeapps.std.ui.composables.LoadingView
 import com.betterlifeapps.std.ui.composables.UiToolbar
 import com.betterlifeapps.std.ui.theme.Grey
 import com.betterlifeapps.std.ui.theme.Purple500
@@ -47,21 +50,36 @@ fun CounterpartScreen(
         ) {
             navController?.popBackStack()
         }
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .weight(1f)
-        ) {
-            Column(Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)) {
-                when (selectedItem.title) {
-                    "Аналитика" -> CounterpartAnalytics()
-                    "Надёжность" -> CounterpartReliability()
+        val state by viewModel.state.collectAsState()
+        when (state) {
+            is CounterpartViewModel.UiState.Loading -> {
+                LoadingView()
+            }
+            is CounterpartViewModel.UiState.Loaded -> {
+                val counterpart = (state as CounterpartViewModel.UiState.Loaded).counterpart
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .weight(1f)
+                ) {
+                    Column(Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)) {
+                        when (selectedItem.title) {
+                            "Аналитика" -> CounterpartAnalyticsScreen(counterpart)
+                            "Надёжность" -> CounterpartReliabilityScreen(counterpart)
+                        }
+                    }
                 }
+                BottomNavigationBar(
+                    items = items,
+                    selectedTitle = selectedItem.title,
+                    onItemSelected = {
+                        selectedItem = it
+                    })
+            }
+            is CounterpartViewModel.UiState.Error -> {
+                CheckConnectionView()
             }
         }
-        BottomNavigationBar(items = items, selectedTitle = selectedItem.title, onItemSelected = {
-            selectedItem = it
-        })
     }
 }
 

@@ -22,24 +22,19 @@ import androidx.compose.ui.unit.dp
 import com.betterlifeapps.std.ui.composables.VSpacer
 
 @Composable
-fun CounterpartReliability() {
-    val courts = listOf(Court("Минский экономический суд", "Истец", "28.11.2021"))
-    val bankruptcy = Bankruptcy("Нет")
-    val liquidation = Liquidation("Нет")
-    val tenders = listOf(Tender("Поставка ПО", "№2231335", "28.11.2021"))
-    val licenses = listOf(License("Товарный знак", "№218692", "28.11.2021"))
+fun CounterpartReliabilityScreen(counterpart: Counterpart) {
     VSpacer(height = 8)
-    StatusBlock("#FF00FF00")
+    StatusBlock(counterpart.statusColor)
     VSpacer(height = 8)
-    CourtsBlock(courts)
+    CourtsBlock(counterpart.courts)
     VSpacer(height = 8)
-    BankruptcyBlock(bankruptcy)
+    BankruptcyBlock(counterpart.bankruptcy)
     VSpacer(height = 8)
-    LiquidationBlock(liquidation)
+    LiquidationBlock(counterpart.liquidation)
     VSpacer(height = 8)
-    TendersBlock(tenders)
+    TendersBlock(counterpart.tenders)
     VSpacer(height = 8)
-    LicensesBlock(licenses)
+    LicensesBlock(counterpart.licenses)
 }
 
 @Composable
@@ -108,9 +103,11 @@ fun BankruptcyBlock(bankruptcy: Bankruptcy) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
             Text(text = "Банкротство", style = MaterialTheme.typography.h5)
             VSpacer(height = 8)
             Text(text = bankruptcy.text, style = MaterialTheme.typography.body1)
@@ -123,9 +120,11 @@ fun LiquidationBlock(liquidation: Liquidation) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
             Text(text = "Ликвидация", style = MaterialTheme.typography.h5)
             VSpacer(height = 8)
             Text(text = liquidation.text, style = MaterialTheme.typography.body1)

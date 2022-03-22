@@ -47,37 +47,30 @@ import com.handen.vtb_counterparts.R
 import dagger.hilt.android.EntryPointAccessors
 
 @Composable
-fun CounterpartAnalytics() {
-    val operations = listOf(
-        Operation(OperationType.INCOME, "111$"),
-        Operation(OperationType.EXPENSE, "228$")
-    )
-    val documents = listOf(
-        Document("Товарный знак", "№65535")
-    )
+fun CounterpartAnalyticsScreen(counterpart: Counterpart) {
     VSpacer(height = 8)
-    IncomesBlock()
+    IncomesBlock(counterpart.incomes)
     VSpacer(height = 8)
-    ExpensesBlock()
+    ExpensesBlock(counterpart.expenses)
     VSpacer(height = 8)
-    OperationsBlock(operations)
+    OperationsBlock(counterpart.operations)
     VSpacer(height = 8)
-    DocumentsBlock(documents)
+    DocumentsBlock(counterpart.documents)
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun IncomesBlock() {
+fun IncomesBlock(incomes: Incomes) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(text = "Доход", style = MaterialTheme.typography.h5)
             VSpacer(height = 4)
-            val options = listOf("День", "Неделя", "Месяц")
+            val options = listOf("Неделя", "Месяц", "Год")
             var expanded by remember { mutableStateOf(false) }
             var selectedOptionText by remember { mutableStateOf(options[0]) }
-
+            var dataPoints: List<DataPoint> by remember { mutableStateOf(incomes.week) }
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = {
@@ -105,6 +98,12 @@ fun IncomesBlock() {
                         DropdownMenuItem(
                             onClick = {
                                 selectedOptionText = selectionOption
+                                dataPoints = when (selectionOption) {
+                                    options[0] -> incomes.week
+                                    options[1] -> incomes.month
+                                    options[2] -> incomes.year
+                                    else -> throw IllegalArgumentException()
+                                }
                                 expanded = false
                             }
                         ) {
@@ -114,24 +113,24 @@ fun IncomesBlock() {
                 }
             }
             VSpacer(height = 8)
-            Chart()
+            Chart(dataPoints)
         }
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ExpensesBlock() {
+fun ExpensesBlock(expenses: Expenses) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(text = "Расходы", style = MaterialTheme.typography.h5)
             VSpacer(height = 4)
-            val options = listOf("День", "Неделя", "Месяц")
+            val options = listOf("Неделя", "Месяц", "Год")
             var expanded by remember { mutableStateOf(false) }
             var selectedOptionText by remember { mutableStateOf(options[0]) }
-
+            var dataPoints: List<DataPoint> by remember { mutableStateOf(expenses.week) }
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = {
@@ -159,6 +158,12 @@ fun ExpensesBlock() {
                         DropdownMenuItem(
                             onClick = {
                                 selectedOptionText = selectionOption
+                                dataPoints = when (selectionOption) {
+                                    options[0] -> expenses.week
+                                    options[1] -> expenses.month
+                                    options[2] -> expenses.year
+                                    else -> throw IllegalArgumentException()
+                                }
                                 expanded = false
                             }
                         ) {
@@ -168,7 +173,7 @@ fun ExpensesBlock() {
                 }
             }
             VSpacer(height = 8)
-            Chart()
+            Chart(dataPoints)
         }
     }
 }
@@ -239,7 +244,7 @@ fun ItemOperation(operation: Operation) {
 }
 
 @Composable
-fun Chart() {
+fun Chart(dataPoints: List<DataPoint>) {
     Box(
         Modifier
             .padding(8.dp)
@@ -249,7 +254,7 @@ fun Chart() {
                 .fillMaxWidth()
                 .height(128.dp),
             factory = { context ->
-                val lineData = generateLineData(data, context)
+//                val lineData = generateLineData(dataPoints, context)
                 val chart = LineChart(context)
                 chart.apply {
                     minOffset = 0f
@@ -264,9 +269,15 @@ fun Chart() {
                     setDrawMarkers(false)
                     setNoDataText("")
                 }
-                chart.data = lineData
+//                chart.data = lineData
                 return@AndroidView chart
-            })
+            },
+            update = {
+                val lineData = generateLineData(dataPoints, it.context)
+                it.data = lineData
+                it.invalidate()
+            }
+        )
     }
 }
 
@@ -304,16 +315,5 @@ fun counterPartViewModel(id: Int): CounterpartViewModel {
 
     return viewModel(factory = CounterpartViewModel.provideFactory(factory, id))
 }
-
-private val data = listOf(
-    DataPoint(timestamp = 1, value = "1000.00"),
-    DataPoint(timestamp = 2, value = "3000.00"),
-    DataPoint(timestamp = 3, value = "5000.00"),
-    DataPoint(timestamp = 4, value = "6000.00"),
-    DataPoint(timestamp = 5, value = "4000.00"),
-    DataPoint(timestamp = 6, value = "7000.00"),
-    DataPoint(timestamp = 7, value = "8000.00"),
-    DataPoint(timestamp = 8, value = "9000.00")
-)
 
 data class DataPoint(val timestamp: Long, val value: String)
