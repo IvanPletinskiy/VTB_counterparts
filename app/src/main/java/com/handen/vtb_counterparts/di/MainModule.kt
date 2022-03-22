@@ -1,9 +1,11 @@
 package com.handen.vtb_counterparts.di
 
 import com.google.gson.GsonBuilder
-import com.handen.vtb_counterparts.network.CounterpartsServiceApi
+import com.handen.vtb_counterparts.network.VtbServiceApi
 import com.handen.vtb_counterparts.screens.counterparts.CounterpartsService
 import com.handen.vtb_counterparts.screens.counterparts.CounterpartsServiceImpl
+import com.handen.vtb_counterparts.screens.financial_data.FinancialDataService
+import com.handen.vtb_counterparts.screens.financial_data.FinancialDataServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,8 +41,11 @@ object MainModule {
         .build()
 
     @Provides
-    fun provideCounterpartsApi(retrofit: Retrofit) = retrofit.create(CounterpartsServiceApi::class.java)
+    fun provideCounterpartsApi(retrofit: Retrofit) = retrofit.create(VtbServiceApi::class.java)
 
     @Provides
-    fun provideCounterpartsService(counterpartsServiceApi: CounterpartsServiceApi): CounterpartsService = CounterpartsServiceImpl(counterpartsServiceApi)
+    fun provideCounterpartsService(vtbServiceApi: VtbServiceApi): CounterpartsService = CounterpartsServiceImpl(vtbServiceApi)
+
+    @Provides
+    fun provideFinancialDataService(vtbServiceApi: VtbServiceApi): FinancialDataService = FinancialDataServiceImpl(vtbServiceApi)
 }
