@@ -11,12 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.handen.vtb_counterparts.screens.counterparts.CounterpartsScreen
-import com.handen.vtb_counterparts.screens.MainScreen
+import com.handen.vtb_counterparts.screens.counterpart.CounterpartViewModel
 import com.handen.vtb_counterparts.ui.theme.VTB_counterpartsTheme
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ActivityComponent
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,19 +35,20 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface ViewModelFactoryProvider {
+        fun counterpartViewModelFactory(): CounterpartViewModel.AssistedFactory
+    }
 }
 
 @Composable
 fun VTBAppContent() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
-        composable("main") {
-            MainScreen(navController)
-        }
-        composable("counterparts") {
-            CounterpartsScreen(navController)
-        }
+    NavHost(navController = navController, startDestination = START_DESTINATION) {
+        appGraph(navController)
     }
 }
 
