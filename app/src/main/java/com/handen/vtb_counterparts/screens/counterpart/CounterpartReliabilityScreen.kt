@@ -66,7 +66,7 @@ fun CourtsBlock(courts: List<Court>) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Суды", style = MaterialTheme.typography.h5)
             Column {
                 for (court in courts) {
@@ -105,7 +105,7 @@ fun BankruptcyBlock(bankruptcy: Bankruptcy) {
     ) {
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(16.dp)
                 .fillMaxWidth()
         ) {
             Text(text = "Банкротство", style = MaterialTheme.typography.h5)
@@ -122,7 +122,7 @@ fun LiquidationBlock(liquidation: Liquidation) {
     ) {
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(16.dp)
                 .fillMaxWidth()
         ) {
             Text(text = "Ликвидация", style = MaterialTheme.typography.h5)
@@ -137,7 +137,7 @@ fun TendersBlock(tenders: List<Tender>) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Участие в тендерах", style = MaterialTheme.typography.h5)
             Column {
                 for (tender in tenders) {
@@ -174,7 +174,7 @@ fun LicensesBlock(licenses: List<License>) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Лицензии", style = MaterialTheme.typography.h5)
             Column {
                 for (license in licenses) {

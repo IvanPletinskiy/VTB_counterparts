@@ -38,6 +38,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.betterlifeapps.std.ui.UiTextField
 import com.betterlifeapps.std.ui.composables.HSpacer
 import com.betterlifeapps.std.ui.composables.VSpacer
+import com.betterlifeapps.std.ui.theme.Green_500
+import com.betterlifeapps.std.ui.theme.Red_500
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -64,7 +66,7 @@ fun IncomesBlock(incomes: Incomes) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Доход", style = MaterialTheme.typography.h5)
             VSpacer(height = 4)
             val options = listOf("Неделя", "Месяц", "Год")
@@ -124,7 +126,7 @@ fun ExpensesBlock(expenses: Expenses) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Расходы", style = MaterialTheme.typography.h5)
             VSpacer(height = 4)
             val options = listOf("Неделя", "Месяц", "Год")
@@ -183,7 +185,7 @@ fun OperationsBlock(operations: List<Operation>) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Операции", style = MaterialTheme.typography.h5)
             Column {
                 for (operation in operations) {
@@ -203,7 +205,7 @@ fun DocumentsBlock(documents: List<Document>) {
         elevation = 4.dp,
         modifier = Modifier.padding(bottom = 8.dp)
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Документы", style = MaterialTheme.typography.h5)
             Column {
                 for (document in documents) {
@@ -225,8 +227,7 @@ fun DocumentsBlock(documents: List<Document>) {
 fun ItemOperation(operation: Operation) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         val isIncome = operation.type == OperationType.INCOME
-        val tint =
-            if (isIncome) Color.Green else Color.Red
+        val tint = if (isIncome) Green_500 else Red_500
         val rotation = if (isIncome) 90f else 270f
         Icon(
             modifier = Modifier

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -37,7 +38,9 @@ import com.betterlifeapps.std.ui.composables.HSpacer
 import com.betterlifeapps.std.ui.composables.LoadingView
 import com.betterlifeapps.std.ui.composables.UiToolbar
 import com.betterlifeapps.std.ui.composables.VSpacer
+import com.betterlifeapps.std.ui.theme.Green_500
 import com.betterlifeapps.std.ui.theme.Grey_Light
+import com.betterlifeapps.std.ui.theme.Red_500
 import com.handen.vtb_counterparts.screens.counterpart.BottomNavigationBar
 import com.handen.vtb_counterparts.screens.counterpart.CounterpartAnalyticsScreen
 import com.handen.vtb_counterparts.screens.counterpart.CounterpartReliabilityScreen
@@ -119,15 +122,13 @@ fun ColumnScope.FinancialDataContent(financialData: FinancialData) {
                                 VSpacer(height = 4)
                                 Box(
                                     modifier = Modifier
-                                        .background(Grey_Light, shape = RectangleShape)
+                                        .background(Grey_Light, shape = RoundedCornerShape(2.dp))
                                         .padding(4.dp), contentAlignment = Alignment.Center
                                 ) {
                                     Text(
                                         text = account.balance,
                                         style = MaterialTheme.typography.caption.copy(
-                                            color = Color(
-                                                0xFFF5F5F5
-                                            )
+                                            color = Color.DarkGray
                                         )
                                     )
                                 }
@@ -148,7 +149,7 @@ fun TransactionsBlock(transactions: List<Transaction>) {
     Card(
         shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Транзакции", style = MaterialTheme.typography.h5)
             Column {
                 for (operation in transactions) {
@@ -165,8 +166,7 @@ fun TransactionsBlock(transactions: List<Transaction>) {
 fun ItemTransaction(transaction: Transaction) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         val isIncome = transaction.type == OperationType.INCOME
-        val tint =
-            if (isIncome) Color.Green else Color.Red
+        val tint = if (isIncome) Green_500 else Red_500
         val rotation = if (isIncome) 90f else 270f
         Icon(
             modifier = Modifier

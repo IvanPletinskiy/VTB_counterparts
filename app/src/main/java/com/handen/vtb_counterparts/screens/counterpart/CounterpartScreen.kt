@@ -8,6 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -19,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -90,7 +92,7 @@ fun BottomNavigationBar(
     onItemSelected: (NavigationItem) -> Unit
 ) {
     BottomNavigation(
-        backgroundColor = androidx.compose.ui.graphics.Color(240, 240, 240),
+        backgroundColor = Color.White,
         modifier = Modifier.padding(top = 2.dp),
         elevation = 16.dp
     ) {
@@ -98,7 +100,7 @@ fun BottomNavigationBar(
             BottomNavigationItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
                 label = { Text(text = item.title) },
-                selectedContentColor = Purple500,
+                selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = Grey.copy(0.6f),
                 alwaysShowLabel = true,
                 selected = item.title == selectedTitle,
