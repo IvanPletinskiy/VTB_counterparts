@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -41,10 +40,8 @@ import com.betterlifeapps.std.ui.composables.VSpacer
 import com.betterlifeapps.std.ui.theme.Green_500
 import com.betterlifeapps.std.ui.theme.Grey_Light
 import com.betterlifeapps.std.ui.theme.Red_500
-import com.handen.vtb_counterparts.screens.counterpart.BottomNavigationBar
-import com.handen.vtb_counterparts.screens.counterpart.CounterpartAnalyticsScreen
-import com.handen.vtb_counterparts.screens.counterpart.CounterpartReliabilityScreen
-import com.handen.vtb_counterparts.screens.counterpart.CounterpartViewModel
+import com.handen.vtb_counterparts.screens.counterpart.Chart
+import com.handen.vtb_counterparts.screens.counterpart.DataPoint
 import com.handen.vtb_counterparts.screens.counterpart.OperationType
 
 @Composable
@@ -140,6 +137,8 @@ fun ColumnScope.FinancialDataContent(financialData: FinancialData) {
             }
             VSpacer(height = 8)
             TransactionsBlock(transactions = financialData.transactions)
+            VSpacer(height = 8)
+            AccountsBalanceBlock(dataPoints = financialData.totalAccountBalance.dataPoints)
         }
     }
 }
@@ -180,5 +179,18 @@ fun ItemTransaction(transaction: Transaction) {
         Text(text = transaction.name, style = MaterialTheme.typography.h6)
         Spacer(modifier = Modifier.weight(1f))
         Text(text = transaction.amount, style = MaterialTheme.typography.body1)
+    }
+}
+
+@Composable
+fun AccountsBalanceBlock(dataPoints: List<DataPoint>) {
+    Card(
+        shape = MaterialTheme.shapes.medium.copy(CornerSize(8.dp)), elevation = 4.dp
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Остаток на счетах", style = MaterialTheme.typography.h5)
+            VSpacer(height = 16)
+            Chart(dataPoints = dataPoints)
+        }
     }
 }
