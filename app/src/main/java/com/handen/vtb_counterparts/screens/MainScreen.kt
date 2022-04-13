@@ -30,5 +30,10 @@ fun MainScreen(navController: NavHostController? = null) {
             onClick = { navController?.navigate("financial_data") },
             modifier = Modifier.fillMaxWidth()
         )
+        UiButton(
+            text = "Выписка по счёту",
+            onClick = { navController?.navigate("account_statement") },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

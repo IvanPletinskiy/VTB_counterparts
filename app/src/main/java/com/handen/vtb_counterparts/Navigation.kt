@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.handen.vtb_counterparts.screens.MainScreen
+import com.handen.vtb_counterparts.screens.account_statement.AccountStatementScreen
 import com.handen.vtb_counterparts.screens.counterpart.CounterpartScreen
 import com.handen.vtb_counterparts.screens.counterpart.counterPartViewModel
 import com.handen.vtb_counterparts.screens.counterparts.CounterpartsScreen
@@ -35,5 +36,8 @@ fun NavGraphBuilder.appGraph(navController: NavHostController) {
     }
     composable("financial_data") {
         FinancialDataScreen(navController)
+    }
+    composable("account_statement") {
+        AccountStatementScreen(navController = navController)
     }
 }
